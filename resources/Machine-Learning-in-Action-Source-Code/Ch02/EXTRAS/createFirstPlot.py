@@ -4,12 +4,12 @@ Created on Oct 27, 2010
 @author: Peter
 '''
 from numpy import *
-import kNN
+import kNN_core
 import matplotlib
 import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = fig.add_subplot(111)
-datingDataMat,datingLabels = kNN.file2matrix('datingTestSet.txt')
+datingDataMat,datingLabels = kNN_core.file2matrix('datingTestSet.txt')
 #ax.scatter(datingDataMat[:,1], datingDataMat[:,2])
 ax.scatter(datingDataMat[:,1], datingDataMat[:,2], 15.0*array(datingLabels), 15.0*array(datingLabels))
 ax.axis([-2,25,-0.2,2.0])

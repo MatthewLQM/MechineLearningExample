@@ -2,9 +2,19 @@ from numpy import *
 import operator
 import matplotlib.pyplot as plt
 from os import listdir
+import kNN_base
 
 
 def classify0(in_x, data_set, labels, k):
+    """
+    根据输入的值利用 kNN 算法进行分类，得到输入值的分类结果
+
+    :param in_x: 输入的值
+    :param data_set: 原始数据集（或者是说测试集）
+    :param labels: 有哪些分类的结果
+    :param k: kNN 算法中的参数 k（取几个最近的点）
+    :return: 返回 labels 中的一个值，表示最终的结果
+    """
     data_set_size = data_set.shape[0]
     diff_mat = tile(in_x, (data_set_size, 1)) - data_set
     sq_diff_mat = diff_mat ** 2
@@ -17,12 +27,6 @@ def classify0(in_x, data_set, labels, k):
         class_count[vote_i_label] = class_count.get(vote_i_label, 0) + 1
     sorted_class_count = sorted(class_count.items(), key=operator.itemgetter(1), reverse=True)
     return sorted_class_count[0][0]
-
-
-def create_data_set():
-    group = array([[1.0, 1.1], [1.0, 1.0], [0, 0], [0, 0.1]])
-    labels = ['A', 'A', 'B', 'B']
-    return group, labels
 
 
 def file_to_matrix(filename):
@@ -41,20 +45,10 @@ def file_to_matrix(filename):
     return return_mat, class_label_vector
 
 
-def auto_normalize(data_set):
-    min_value = data_set.min(0)
-    max_value = data_set.max(0)
-    ranges = max_value - min_value
-    m = data_set.shape[0]
-    normal_data_set = data_set - tile(min_value, (m, 1))
-    normal_data_set = normal_data_set/tile(ranges, (m, 1))
-    return normal_data_set, ranges, min_value
-
-
 def dating_class_test():
     ho_ratio = 0.10
     dating_data_mat, dating_labels = file_to_matrix("resources/datingTestSet2.txt")
-    norm_mat, ranges, min_value = auto_normalize(dating_data_mat)
+    norm_mat, ranges, min_value = kNN_base.auto_normalize(dating_data_mat)
     m = norm_mat.shape[0]
     num_test_vector = int(m * ho_ratio)
     error_count = 0.0
@@ -78,7 +72,7 @@ def draw_point():
 
 
 def little_test_case():
-    group, labels = create_data_set()
+    group, labels = kNN_base.create_data_set()
     print("The group is :")
     print(group)
     print("The labels is :")
