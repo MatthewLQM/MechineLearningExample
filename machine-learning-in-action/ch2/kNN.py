@@ -53,7 +53,7 @@ def auto_normalize(data_set):
 
 def dating_class_test():
     ho_ratio = 0.10
-    dating_data_mat, dating_labels = file_to_matrix("datingTestSet2.txt")
+    dating_data_mat, dating_labels = file_to_matrix("resources/datingTestSet2.txt")
     norm_mat, ranges, min_value = auto_normalize(dating_data_mat)
     m = norm_mat.shape[0]
     num_test_vector = int(m * ho_ratio)
@@ -69,7 +69,7 @@ def dating_class_test():
 
 
 def draw_point():
-    dating_data_mat, dating_labels = file_to_matrix("datingTestSet2.txt")
+    dating_data_mat, dating_labels = file_to_matrix("resources/datingTestSet2.txt")
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ax.scatter(dating_data_mat[:, 0], dating_data_mat[:, 1],
@@ -100,7 +100,7 @@ def img_to_vector(filename):
 
 def handwriting_class_test():
     hw_labels = []
-    training_file_list = listdir('trainingDigits')
+    training_file_list = listdir('resources/trainingDigits')
     m = len(training_file_list)
     training_mat = zeros((m, 1024))
     for i in range(m):
@@ -108,15 +108,15 @@ def handwriting_class_test():
         file_str = file_name_str.split('.')[0]
         class_num_str = int(file_str.split('_')[0])
         hw_labels.append(class_num_str)
-        training_mat[i, :] = img_to_vector('trainingDigits/%s' % file_name_str)
-    test_file_list = listdir('testDigits')
+        training_mat[i, :] = img_to_vector('resources/trainingDigits/%s' % file_name_str)
+    test_file_list = listdir('resources/testDigits')
     error_count = 0.0
     m_test = len(test_file_list)
     for i in range(m_test):
         file_name_str = test_file_list[i]
         file_str = file_name_str.split('.')[0]
         class_num_str = int(file_str.split('_')[0])
-        vector_under_test = img_to_vector('testDigits/%s' % file_name_str)
+        vector_under_test = img_to_vector('resources/testDigits/%s' % file_name_str)
         classifier_result = classify0(vector_under_test, training_mat, hw_labels, 3)
         print("the classifier came back with: %d, the real answer is %d"
               % (classifier_result, class_num_str))

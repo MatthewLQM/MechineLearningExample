@@ -2,9 +2,6 @@ import kNN
 from numpy import *
 
 
-kNN.handwriting_class_test()
-
-
 def date_classifier():
     result_list = ['not at all', 'in small doses', 'in large doses']
     percent_tats = float(input("percentage of time spent playing video games?"))
@@ -16,5 +13,8 @@ def date_classifier():
     classifier_result = kNN.classify0((in_array - min_value)/ranges, normal_mat, dating_labels, 3)
     print("You will probably like this person: ", result_list[classifier_result - 1])
 
+
+kNN.handwriting_class_test()
+date_classifier()
 
 
