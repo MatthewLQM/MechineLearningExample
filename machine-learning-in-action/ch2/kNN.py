@@ -1,5 +1,6 @@
 from numpy import *
 import operator
+import matplotlib.pyplot as plt
 
 
 def classify0(in_x, data_set, labels, k):
@@ -48,3 +49,39 @@ def auto_normalize(data_set):
     normal_data_set = normal_data_set/tile(ranges, (m, 1))
     return normal_data_set, ranges, min_value
 
+
+def dating_class_test():
+    ho_ratio = 0.10
+    dating_data_mat, dating_labels = file_to_matrix("datingTestSet2.txt")
+    norm_mat, ranges, min_value = auto_normalize(dating_data_mat)
+    m = norm_mat.shape[0]
+    num_test_vector = int(m * ho_ratio)
+    error_count = 0.0
+    for i in range(num_test_vector):
+        classifier_result = classify0(norm_mat[i, :], norm_mat[num_test_vector:m, :],
+                                      dating_labels[num_test_vector:m], 3)
+        print("the classifier came back with: %d, the real answer is: %d"
+              % (classifier_result, dating_labels[i]))
+        if classifier_result != dating_labels[i]:
+            error_count += 1.0
+    print("the total error rate is: %f" % (error_count / float(num_test_vector)))
+
+
+def draw_point():
+    dating_data_mat, dating_labels = file_to_matrix("datingTestSet2.txt")
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    ax.scatter(dating_data_mat[:, 0], dating_data_mat[:, 1],
+               15.0 * array(dating_labels), 15.0 * array(dating_labels))
+    plt.show()
+
+
+def little_test_case():
+    group, labels = create_data_set()
+    print("The group is :")
+    print(group)
+    print("The labels is :")
+    print(labels)
+    temp = classify0([0, 0], group, labels, 3)
+    print("Point[0, 0]\'s labels is :")
+    print(temp)
