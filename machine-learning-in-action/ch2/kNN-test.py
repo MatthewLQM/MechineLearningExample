@@ -11,7 +11,7 @@ def date_classifier():
     dating_data_mat, dating_labels = kNN_core.file_to_matrix("datingTestSet2.txt")
     normal_mat, ranges, min_value = kNN_base.auto_normalize(dating_data_mat)
     in_array = array([fly_miles, percent_tats, ice_cream])
-    classifier_result = kNN_core.classify0((in_array - min_value) / ranges, normal_mat, dating_labels, 3)
+    classifier_result = kNN_core.classify((in_array - min_value) / ranges, normal_mat, dating_labels, 3)
     print("You will probably like this person: ", result_list[classifier_result - 1])
 
 
